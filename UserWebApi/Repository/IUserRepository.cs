@@ -12,6 +12,6 @@ namespace UserWebApi.Repository
         Task<bool> UpdateUser(int id, UserDTO userDTO);
         Task<bool> DeleteUser(int id);
         Task<bool> ChangePassword(int userId, string currentPassword, string newPassword);
-
+        void UpdateUserAuthentication(int userId);
     }
 }

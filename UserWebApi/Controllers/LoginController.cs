@@ -40,7 +40,7 @@ namespace UserWebApi.Controllers
             if (token != null)
             {
                 int userId = (int)HttpContext.Session.GetInt32("UserId");
-                //_refreshTokenService.SetRefreshToken(userId);
+                _refreshTokenService.SetRefreshToken(userId);
                 var user = _context.Users.FirstOrDefault(u => u.Id == userId);
                 var cookieOptions = new CookieOptions
                 {
@@ -77,7 +77,7 @@ namespace UserWebApi.Controllers
             }
 
             string token = _jwtService.GenerateToken(user);
-           // _refreshTokenService.SetRefreshToken(userId);
+           _refreshTokenService.SetRefreshToken(userId);
 
             return Ok(token);
         }
@@ -90,6 +90,7 @@ namespace UserWebApi.Controllers
 
             return Ok("Logout successful");
         }
+    
     }
 
 }

@@ -93,7 +93,21 @@ namespace UserWebApi.Repository
 
             return true;
         }
+        public void UpdateUserAuthentication(int userId)
+        {
+            // Lấy thông tin người dùng từ cơ sở dữ liệu
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
 
-       
+            if (user != null)
+            {
+                // Cập nhật thông tin xác thực của người dùng
+                user.RefreshToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+                user.TokenCreated = DateTime.Now;
+                user.TokenExpires = DateTime.Now.AddDays(1);
+
+                _context.SaveChanges(); // Lưu thay đổi vào cơ sở dữ liệu
+            }
+        }
+
     }
 }

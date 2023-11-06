@@ -13,7 +13,8 @@ namespace FlightWebApi.Models
         public double Version {  get; set; }
         public string Type {  get; set; }
         public string Note {  get; set; }
-        public IList<string> Permission {  get; set; }
+        public ICollection<RoleModel>? Permission {  get; set; }
+        public DateTime Date { get; set; }
         public virtual FlightModels FlightModels { get; set; }
     }
 }
