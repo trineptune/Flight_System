@@ -4,6 +4,7 @@ using FlightWebApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlightWebApi.Migrations
 {
     [DbContext(typeof(FlightDbContext))]
-    partial class FlightDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231109062451_Flightdb2")]
+    partial class Flightdb2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,27 +24,6 @@ namespace FlightWebApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("FlightWebApi.Models.Configuration", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("DocumentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DocumentId");
-
-                    b.ToTable("Configuration");
-                });
 
             modelBuilder.Entity("FlightWebApi.Models.FlightDocument", b =>
                 {
@@ -119,7 +101,10 @@ namespace FlightWebApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<int?>("FlightDocumentId")
+                    b.Property<int>("DocId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<string>("RoleName")
@@ -128,20 +113,9 @@ namespace FlightWebApi.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("FlightDocumentId");
+                    b.HasIndex("DocId");
 
-                    b.ToTable("Permission");
-                });
-
-            modelBuilder.Entity("FlightWebApi.Models.Configuration", b =>
-                {
-                    b.HasOne("FlightWebApi.Models.FlightDocument", "Document")
-                        .WithMany("Configurations")
-                        .HasForeignKey("DocumentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Document");
+                    b.ToTable("Permisson");
                 });
 
             modelBuilder.Entity("FlightWebApi.Models.FlightDocument", b =>
@@ -157,15 +131,17 @@ namespace FlightWebApi.Migrations
 
             modelBuilder.Entity("FlightWebApi.Models.Permisson", b =>
                 {
-                    b.HasOne("FlightWebApi.Models.FlightDocument", null)
+                    b.HasOne("FlightWebApi.Models.FlightDocument", "Document")
                         .WithMany("Permission")
-                        .HasForeignKey("FlightDocumentId");
+                        .HasForeignKey("DocId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Document");
                 });
 
             modelBuilder.Entity("FlightWebApi.Models.FlightDocument", b =>
                 {
-                    b.Navigation("Configurations");
-
                     b.Navigation("Permission");
                 });
 

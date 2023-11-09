@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UserWebApi.DTO;
@@ -17,14 +18,14 @@ namespace UserWebApi.Controllers
         {
             _roleRepository = roleRepository;
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Role>>> GetAllRoles()
         {
             var roles = await _roleRepository.GetAllRoles();
             return Ok(roles);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<Role>> GetRoleById(int id)
         {
@@ -35,7 +36,7 @@ namespace UserWebApi.Controllers
             }
             return Ok(role);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<Role>> AddRole(RoleDTO roleDto)
         {
@@ -43,7 +44,7 @@ namespace UserWebApi.Controllers
 
             return Ok(createdRole);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateRole(int id, RoleDTO roleDTO)
         {
@@ -60,7 +61,7 @@ namespace UserWebApi.Controllers
 
             return NoContent();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRole(int id)
         {

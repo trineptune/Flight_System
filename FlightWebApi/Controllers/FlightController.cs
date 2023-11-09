@@ -1,6 +1,7 @@
 ﻿using FlightWebApi.DTO;
 using FlightWebApi.Models;
 using FlightWebApi.Reposiotry;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -17,14 +18,14 @@ namespace FlightWebApi.Controllers
         {
             _flightRepository = flightRepository;
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FlightModels>>> GetAllFlights()
         {
             var flights = await _flightRepository.GetAllFlight();
             return Ok(flights);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<FlightModels>> GetFlightById(int id)
         {
@@ -35,7 +36,7 @@ namespace FlightWebApi.Controllers
             }
             return Ok(flight);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<FlightDTO>> AddFlight(FlightDTO flightDto)
         {
@@ -43,7 +44,7 @@ namespace FlightWebApi.Controllers
 
             return Ok(createdFlight);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateFlight(int id, FlightDTO flightDto)
         {
@@ -54,7 +55,7 @@ namespace FlightWebApi.Controllers
             }
             return NoContent();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFlight(int id)
         {

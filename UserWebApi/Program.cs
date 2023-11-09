@@ -5,6 +5,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using UserWebApi.Data;
+using UserWebApi.Repository;
 using UserWebApi.Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +17,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IRefreshToken, RefreshToken>();
-
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IRoleRepository,RoleRepository>();
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<JwtService>();
 builder.Services.AddDbContext<UserDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString2")));
 builder.Services.AddSwaggerGen(options =>
@@ -50,7 +54,9 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
 var app = builder.Build();
+app.UseSession();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

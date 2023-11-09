@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UserWebApi.DTO;
@@ -17,14 +18,14 @@ namespace UserWebApi.Controllers
         {
             _userRepository = userRepository;
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             var users = await _userRepository.GetUsers();
             return Ok(users);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUserById(int id)
         {
@@ -35,22 +36,22 @@ namespace UserWebApi.Controllers
             }
             return Ok(user);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet("search")]
         public ActionResult<IEnumerable<User>> SearchUsersByEmail(string key)
         {
             var users = _userRepository.SearchUsersByEmail(key);
             return Ok(users);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ActionResult<Role>> AddRole(UserDTO userDTO)
+        public async Task<ActionResult<Role>> AddUser(UserDTO userDTO)
         {
             var createdUser = await _userRepository.AddUser(userDTO);
 
             return Ok(createdUser);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, UserDTO userDTO)
         {
@@ -67,7 +68,7 @@ namespace UserWebApi.Controllers
 
             return NoContent();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
@@ -79,7 +80,7 @@ namespace UserWebApi.Controllers
 
             return NoContent();
         }
-
+        [Authorize(Roles = "Admin,Pilot,Crew,GO Staff")]
         [HttpPost("changepassword")]
         public async Task<IActionResult> ChangePassword(int userId, string currentPassword, string newPassword)
         {

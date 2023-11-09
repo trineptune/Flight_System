@@ -8,6 +8,7 @@
         public string Type { get; set; }
         public string Note { get; set; }
         public DateTime Date { get; set; }
+        public string FilePath { get; set; }
         public ICollection<string> Permission { get; set; }
     }
 }
