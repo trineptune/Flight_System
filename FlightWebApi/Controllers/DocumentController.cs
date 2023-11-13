@@ -40,17 +40,33 @@ namespace FlightWebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddDocument(DocumentDTO documentDTO)
+        public async Task<IActionResult> AddDocument(IFormFile file, int TypeId, double version,int FlightId,string Note)
         {
-            try
+
+
+            var targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "FileResoure", "File");
+            var fileName = file.FileName;
+            var filePath = Path.Combine(targetDirectory, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                await _documentRepository.AddDocument(documentDTO);
-                return Ok();
+                await file.CopyToAsync(stream);
             }
-            catch (Exception ex)
+
+            var resourcesFile = new DocumentDTO
             {
-                return BadRequest(ex.Message);
-            }
+                DocumentName = fileName,
+                Date = DateTime.Now,
+                FilePath = filePath,
+                IdFlight = FlightId,
+                TypeId = TypeId,
+                Note = Note,
+                Version = version
+            };
+
+            await _documentRepository.AddDocument(resourcesFile);
+
+            return Ok(resourcesFile.DocumentName);
         }
 
         [HttpPut("{id}")]

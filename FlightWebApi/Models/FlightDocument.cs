@@ -11,12 +11,12 @@ namespace FlightWebApi.Models
         public int IdFlight {  get; set; }
         public string DocumentName {  get; set; }
         public double Version {  get; set; }
-        public string Type {  get; set; }
+        public int TypeId {  get; set; }
         public string Note {  get; set; }
         public string FilePath {  get; set; }
-        public ICollection<Configuration> Configurations { get; set; }
-        public ICollection<Permisson>? Permission {  get; set; }
+        public ICollection<GroupPermission>? GroupPermission {  get; set; }
         public DateTime Date { get; set; }
+        public virtual DocumentType DocumentTypes { get; set; }
         public virtual FlightModels FlightModels { get; set; }
     }
 }

@@ -8,7 +8,8 @@ namespace FlightWebApi.Data
         public DbSet<FlightModels> Flights { get; set; }
         public DbSet<FlightDocument> FlightsDocument { get; set; }
         public DbSet<Permisson> Permission {  get; set; }
-        public DbSet<Configuration> Configuration { get; set; }
+        public DbSet<DocumentType> DocumentType { get; set; }
+        public DbSet<GroupPermission> GroupPermission { get; set; }
         
         public FlightDbContext(DbContextOptions<FlightDbContext> options) : base(options)
         {
@@ -19,10 +20,20 @@ namespace FlightWebApi.Data
             .HasOne(f=>f.FlightModels)
             .WithMany(d=>d.FlightDocuments)
             .HasForeignKey(u => u.IdFlight);
-            modelBuilder.Entity<Configuration>()
-            .HasOne(d=>d.Document)
-            .WithMany(c=>c.Configurations)
-            .HasForeignKey(u => u.DocumentId);
+
+            modelBuilder.Entity<Permisson>()
+           .HasOne(f => f.DocumentType)
+           .WithMany(p=>p.permissons)
+           .HasForeignKey(u => u.TypeId);
+
+            modelBuilder.Entity<DocumentType>()
+           .HasOne(f => f.Documents)
+           .WithOne(d => d.DocumentTypes).HasForeignKey<FlightDocument>(i => i.TypeId);
+
+            modelBuilder.Entity<GroupPermission>()
+           .HasOne(p=>p.Permisson)
+           .WithOne(g=>g.GroupPermission).HasForeignKey<Permisson>(i => i.GroupPermissionId);
+
         }
     }
 }

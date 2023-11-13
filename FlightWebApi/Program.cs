@@ -16,6 +16,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IFlightRepository, FLightRepository>();
+builder.Services.AddTransient<IDocRepository, DocumentRepository>();
+builder.Services.AddTransient<IGroupRepository,GroupPermissionRepository>();
+builder.Services.AddTransient<IPermissionRepository, PermissionRepository>();
+builder.Services.AddTransient<IDocumentTypeRepository, DocumentTypeRepository>();
+
 
 builder.Services.AddDbContext<FlightDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString2")));

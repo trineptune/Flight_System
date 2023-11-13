@@ -28,8 +28,9 @@ namespace FlightWebApi.Reposiotry
                 Date=DateTime.Now,
                 DocumentName=documentDTO.DocumentName,
                 Note=documentDTO.Note,
-                Type=documentDTO.Type,
+                TypeId=documentDTO.TypeId,
                 Version=documentDTO.Version,
+                FilePath=documentDTO.FilePath,
             };
             _context.FlightsDocument.Add(newDocument);
             await _context.SaveChangesAsync();
@@ -46,8 +47,9 @@ namespace FlightWebApi.Reposiotry
             resoure.Date= DateTime.Now;
             resoure.DocumentName= documentDTO.DocumentName;
             resoure.Note= documentDTO.Note;
-            resoure.Type= documentDTO.Type;
+            resoure.TypeId= documentDTO.TypeId;
             resoure.Version= documentDTO.Version;
+            resoure.FilePath= documentDTO.FilePath;
             await _context.SaveChangesAsync();
 
             return true;
