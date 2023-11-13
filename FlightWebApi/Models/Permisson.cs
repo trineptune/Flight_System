@@ -14,7 +14,7 @@ namespace FlightWebApi.Models
         public bool ReadAndModify {  get; set; }
         public bool ReadOnly {  get; set; }
         public bool NoPermission {  get; set; }
-        public virtual GroupPermission GroupPermission { get; set; }
+        public virtual GroupPermission groupPermissions { get; set; }
         public virtual DocumentType DocumentType { get; set; }
     }
 }

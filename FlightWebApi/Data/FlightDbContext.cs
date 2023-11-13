@@ -26,13 +26,16 @@ namespace FlightWebApi.Data
            .WithMany(p=>p.permissons)
            .HasForeignKey(u => u.TypeId);
 
-            modelBuilder.Entity<DocumentType>()
-           .HasOne(f => f.Documents)
-           .WithOne(d => d.DocumentTypes).HasForeignKey<FlightDocument>(i => i.TypeId);
+            modelBuilder.Entity<FlightDocument>()
+           .HasOne(f => f.DocumentTypes)
+           .WithMany(t=>t.Documents).
+           HasForeignKey(u => u.TypeId);
 
-            modelBuilder.Entity<GroupPermission>()
-           .HasOne(p=>p.Permisson)
-           .WithOne(g=>g.GroupPermission).HasForeignKey<Permisson>(i => i.GroupPermissionId);
+            modelBuilder.Entity<Permisson>()
+           .HasOne(p => p.groupPermissions)
+           .WithMany(g => g.permissons).
+           HasForeignKey(i => i.GroupPermissionId);
+
 
         }
     }
