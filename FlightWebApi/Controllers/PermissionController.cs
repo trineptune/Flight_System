@@ -2,6 +2,7 @@
 using FlightWebApi.DTO;
 using FlightWebApi.Models;
 using FlightWebApi.Reposiotry;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightWebApi.Controllers
@@ -16,14 +17,14 @@ namespace FlightWebApi.Controllers
         {
             _permissionRepository = permissionRepository;
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAllPermission()
         {
             var permissions = await _permissionRepository.GetAllPermission();
             return Ok(permissions);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPermissionById(int id)
         {
@@ -34,7 +35,7 @@ namespace FlightWebApi.Controllers
             }
             return Ok(permission);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddPermission(PermissionDTO permissionDto)
         {
@@ -42,7 +43,7 @@ namespace FlightWebApi.Controllers
 
             return Ok(createPermission);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePermission(int id, PermissionDTO permissionDto)
         {
@@ -53,7 +54,7 @@ namespace FlightWebApi.Controllers
             }
             return NoContent();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePermission(int id)
         {
@@ -64,21 +65,21 @@ namespace FlightWebApi.Controllers
             }
             return NoContent();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost("{id}/readAndModify")]
         public async Task<IActionResult> SetReadAndModify(int id)
         {
             await _permissionRepository.ReadAndModify(id);
             return NoContent();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost("{id}/readOnly")]
         public async Task<IActionResult> SetReadOnly(int id)
         {
             await _permissionRepository.ReadOnly(id);
             return NoContent();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost("{id}/noPermission")]
         public async Task<IActionResult> SetNoPermission(int id)
         {

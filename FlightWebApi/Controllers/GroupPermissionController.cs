@@ -2,6 +2,7 @@
 using FlightWebApi.DTO;
 using FlightWebApi.Models;
 using FlightWebApi.Reposiotry;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightWebApi.Controllers
@@ -16,14 +17,14 @@ namespace FlightWebApi.Controllers
         {
             _groupPermissionRepository = groupPermissionRepository;
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetGroupPermission()
         {
             var groupPermissions = await _groupPermissionRepository.GetGroupPermission();
             return Ok(groupPermissions);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetGroupPermissionById(int id)
         {
@@ -34,7 +35,7 @@ namespace FlightWebApi.Controllers
             }
             return Ok(groupPermission);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddGroupPermission(GroupPermissionDTO groupPermissionDto)
         {
@@ -42,7 +43,7 @@ namespace FlightWebApi.Controllers
 
             return Ok(createGroup);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateGroupPermission(int id, GroupPermissionDTO groupDto)
         {
@@ -53,7 +54,7 @@ namespace FlightWebApi.Controllers
             }
             return NoContent();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGroupPermission(int id)
         {

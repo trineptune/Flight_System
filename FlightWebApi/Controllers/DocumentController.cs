@@ -1,6 +1,7 @@
 ﻿using FlightWebApi.DTO;
 using FlightWebApi.Models;
 using FlightWebApi.Reposiotry;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,14 +19,14 @@ namespace FlightWebApi.Controllers
         {
             _documentRepository = documentRepository;
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<List<FlightDocument>>> GetAllDocuments()
         {
             var documents = await _documentRepository.GetAllDocuments();
             return Ok(documents);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<FlightDocument>> GetDocumentById(int id)
         {
@@ -38,7 +39,7 @@ namespace FlightWebApi.Controllers
 
             return Ok(document);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddDocument(IFormFile file, int TypeId, double version,int FlightId,string Note)
         {
@@ -68,7 +69,7 @@ namespace FlightWebApi.Controllers
 
             return Ok(resourcesFile.DocumentName);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateDocument(int id, DocumentDTO documentDTO)
         {
@@ -88,7 +89,7 @@ namespace FlightWebApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDocument(int id)
         {
